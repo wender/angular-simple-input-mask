@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('angularMask', [])
   .directive('angularMask', function() {
   return {
