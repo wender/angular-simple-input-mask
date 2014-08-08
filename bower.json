@@ -1,0 +1,8 @@
+{
+  "name": "angular-simple-input-mask",
+  "version": "1.0.0",
+  "main": "./src/angular-simple-mask.js",
+  "dependencies": {
+    "angular": "1.0.8"
+  }
+}
