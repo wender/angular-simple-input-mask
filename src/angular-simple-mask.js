@@ -1,40 +1,48 @@
 'use strict';
 
 angular.module('angularMask', [])
-  .directive('angularMask', function() {
-  return {
-    restrict : 'A',
-    link: function($scope, el, attrs) {
-      var format = attrs.angularMask;
+    .directive('angularMask', function() {
+      return {
+        restrict : 'A',
+        link: function($scope, el, attrs) {
+          var format = attrs.angularMask,
+              arrFormat = format.split('|');
 
-      function mask(el, format) {
-        var text = el;
-        var value = text.value;
-        var newValue = "";
-        for (var vId = 0, mId = 0 ; mId < format.length ; ) {
-          if (mId >= value.length){
-            break;
+          if(arrFormat.length > 1){
+            arrFormat.sort(function(a, b){
+              return a.length - b.length;
+            });
           }
-          if (format[mId] == '0' && value[vId].match(/[0-9]/) === null) {
-            break;
-          }
-          while (format[mId].match(/[0\*]/) === null) {
-            if (value[vId] == format[mId]){
-              break;
+          function mask(o) {
+            var value = o.value.replace(/\D/g,'');
+            if(arrFormat.length > 1){
+              for(var a in arrFormat){
+                if(value.replace(/\D/g,'').length <= arrFormat[a].replace(/\D/g,'').length){
+                  format = arrFormat[a];
+                  break;
+                }
+              }
             }
-            newValue += format[mId++];
+            var newValue = '';
+            for(var nmI = 0, mI = 0; mI < format.length;){
+              if(format[mI].match(/\D/)){
+                newValue+=format[mI];
+              }else{
+                if(value[nmI] != undefined){
+                  newValue+=value[nmI];
+                  nmI++;
+                }else{
+                  break;
+                }
+              }
+              mI++;
+            }
+            o.value = newValue;
           }
-          newValue += value[vId++];
-          mId++;
+          el.bind('keyup keydown', function(e) {
+            var keyList = [8,37,39,46];
+            if(keyList.indexOf(e.keyCode) == -1)mask(this);
+          });
         }
-        text.value = newValue;
-      }
-
-      el.bind('keyup keydown', function(e) {
-        var _format = format;
-        var _el = el[0];
-        mask(_el,_format);
-      });
-    }
-  };
-});
+      };
+    });

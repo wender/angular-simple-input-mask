@@ -2,7 +2,7 @@
 
 ***
 
-Way simple Angular directive to apply mask to input fields
+Way simple Angular directive to apply mask to input fields also with dynamic/multiple masks to the same field, which means that you can have different masks for different lengths of numbers
 
 Mask format uses 0 
 Example: 0000-0000-0000-0000
@@ -13,6 +13,13 @@ Directive will look for attribute angular-mask on input
 <input name="test" maxlengh="19" angular-mask="0000-0000-0000-0000" />
 ```
 
+### Multiple masks
+```HTML
+<input name="test" maxlengh="19" angular-mask="(00)00000-0000|(00)0000-0000" />
+```
+Use | to separate masks
 
-## Demo
-Do you want to see this directive in action? Visit http://wender.com.br/angular/angular-simple-mask.html
+
+#### Install via bower
+
+    bower install angular-input-mask --save
