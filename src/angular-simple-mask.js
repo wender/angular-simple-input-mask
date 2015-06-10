@@ -4,7 +4,8 @@ angular.module('angularMask', [])
     .directive('angularMask', function() {
       return {
         restrict : 'A',
-        link: function($scope, el, attrs) {
+        require: 'ngModel',
+        link: function($scope, el, attrs, model) {
           var format = attrs.angularMask,
               arrFormat = format.split('|');
 
@@ -13,8 +14,16 @@ angular.module('angularMask', [])
               return a.length - b.length;
             });
           }
-          function mask(o) {
-            var value = o.value.replace(/\D/g,'');
+          model.$formatters.push(mask);
+          model.$parsers.push(function (value) {
+            model.$viewValue = mask(value);
+            var modelValue = parseInt(String(value).replace(/\D/g,''));
+            el.val(model.$viewValue);
+            return modelValue;
+          });
+
+          function mask(val) {
+            var value = String(val).replace(/\D/g,'');
             if(arrFormat.length > 1){
               for(var a in arrFormat){
                 if(value.replace(/\D/g,'').length <= arrFormat[a].replace(/\D/g,'').length){
@@ -37,12 +46,8 @@ angular.module('angularMask', [])
               }
               mI++;
             }
-            o.value = newValue;
+            return newValue;
           }
-          el.bind('keyup keydown', function(e) {
-            var keyList = [8,37,39,46];
-            if(keyList.indexOf(e.keyCode) == -1)mask(this);
-          });
         }
       };
     });
