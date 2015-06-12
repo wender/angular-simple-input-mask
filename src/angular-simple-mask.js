@@ -23,6 +23,9 @@ angular.module('angularMask', [])
           });
 
           function mask(val) {
+	    if(val === null){
+              return '';
+            }
             var value = String(val).replace(/\D/g,'');
             if(arrFormat.length > 1){
               for(var a in arrFormat){
