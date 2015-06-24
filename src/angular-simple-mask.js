@@ -17,7 +17,7 @@ angular.module('angularMask', [])
           model.$formatters.push(mask);
           model.$parsers.push(function (value) {
             model.$viewValue = mask(value);
-            var modelValue = parseInt(String(value).replace(/\D/g,''));
+            var modelValue = String(value).replace(/\D/g,'');
             el.val(model.$viewValue);
             return modelValue;
           });
