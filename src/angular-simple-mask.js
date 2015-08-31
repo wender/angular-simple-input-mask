@@ -6,14 +6,12 @@ angular.module('angularMask', [])
       restrict: 'A',
       require: 'ngModel',
       link: function ($scope, el, attrs, model) {
-        var format = attrs.angularMask,
-          arrFormat = format.split('|');
-
-        if (arrFormat.length > 1) {
-          arrFormat.sort(function (a, b) {
-            return a.length - b.length;
-          });
-        }
+        $scope.$watch(function(){return attrs.angularMask;}, function(value) {
+          if (model.$viewValue != null){
+            model.$viewValue = mask(String(model.$viewValue).replace(/\D/g, ''));
+            el.val(model.$viewValue);
+          }
+        });
 
         model.$formatters.push(function (value) {
           return value === null ? '' : mask(String(value).replace(/\D/g, ''));
@@ -27,7 +25,16 @@ angular.module('angularMask', [])
         });
 
         function mask(val) {
-          if (val === null) {
+          var format = attrs.angularMask,
+          arrFormat = format.split('|');
+
+          if (arrFormat.length > 1) {
+            arrFormat.sort(function (a, b) {
+              return a.length - b.length;
+            });
+          }
+
+          if (val === null || val == '') {
             return '';
           }
           var value = String(val).replace(/\D/g, '');
