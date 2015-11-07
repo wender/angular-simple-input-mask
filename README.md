@@ -4,6 +4,8 @@
 
 Way simple Angular directive to apply mask to input fields also with dynamic/multiple masks to the same field, which means that you can have different masks for different lengths of numbers
 
+[DEMO](http://wender.github.io/angular-simple-input-mask/)
+
 Mask format uses 0 
 Example: 0000-0000-0000-0000
 
