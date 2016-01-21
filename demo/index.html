@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../src/angular-simple-mask.js"></script>
+
+    <script>
+        angular.module('myApp', ['angularMask']);
+
+        angular.module('myApp').controller('MainCtrl', function($scope) {
+            $scope.field = {
+                zipCodeOne: null,
+                zipCodeTwo: null,
+                zipCodeThree: null
+            };
+        });
+    </script>
+</head>
+<body  ng-controller="MainCtrl">
+
+<form name="form">
+
+    <p>
+        <p>
+            <label for="idOne">$modelValue equal $viewValue with attribute declaration true</label>
+        </p>
+        <input
+                id="idOne"
+                type="text"
+                name="zipCodeOne"
+                is-model-value-equal-view-values="true"
+                ng-model="field.zipCodeOne"
+                placeholder="zip code"
+                required="true"
+                angular-mask="00000-000">
+
+        <pre>{{ form.zipCodeOne | json }}</pre>
+    </p>
+
+    <p>
+        <p>
+            <label for="idTwo">$modelValue different $viewValue with attribute declaration false</label>
+        </p>
+        <input
+                id="idTwo"
+                type="text"
+                name="zipCodeTwo"
+                is-model-value-equal-view-values="false"
+                ng-model="field.zipCodeTwo"
+                placeholder="zip code"
+                angular-mask="00000-000">
+
+        <pre>{{ form.zipCodeTwo | json }}</pre>
+    </p>
+
+    <p>
+        <p>
+            <label for="idThree">$modelValue different $viewValue without attribute declaration</label>
+        </p>
+
+        <input
+                id="idThree"
+                type="text"
+                name="zipCodeThree"
+                ng-model="field.zipCodeThree"
+                placeholder="zip code"
+                angular-mask="00000-000">
+
+        <pre>{{ form.zipCodeThree | json }}</pre>
+    </p>
+
+    <p>
+        Validation all form
+        <pre>
+            {{form | json}}
+        </pre>
+    </p>
+
+</form>
+
+</body>
+</html>

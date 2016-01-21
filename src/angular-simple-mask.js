@@ -5,6 +5,9 @@ angular.module('angularMask', [])
     return {
       restrict: 'A',
       require: 'ngModel',
+      scope: {
+        isModelValueEqualViewValues: '='
+      },
       link: function ($scope, el, attrs, model) {
         var format = attrs.angularMask,
           arrFormat = format.split('|');
@@ -21,7 +24,7 @@ angular.module('angularMask', [])
 
         model.$parsers.push(function (value) {
           model.$viewValue = mask(value);
-          var modelValue = String(value).replace(/\D/g, '');
+          var modelValue = $scope.isModelValueEqualViewValues ? model.$viewValue : String(value).replace(/\D/g, '');
           el.val(model.$viewValue);
           return modelValue;
         });
