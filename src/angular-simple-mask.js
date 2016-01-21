@@ -51,15 +51,14 @@ angular.module('angularMask', [])
           }
           var newValue = '';
           for (var nmI = 0, mI = 0; mI < format.length;) {
+            if (!value[nmI]) {
+              break;
+            }
             if (format[mI].match(/\D/)) {
               newValue += format[mI];
             } else {
-              if (value[nmI] != undefined) {
-                newValue += value[nmI];
-                nmI++;
-              } else {
-                break;
-              }
+              newValue += value[nmI];
+              nmI++;
             }
             mI++;
           }
